@@ -63,17 +63,9 @@ public class MainActivity extends AppCompatActivity {
 
         listView.setAdapter(aa);
     }
-    //public void Save(ArrayList<FluxRssData> Flux){
-    //    try{
-    //        FileOutputStream fos = getApplicationContext().openFileOutput("FluxRssData", Context.MODE_PRIVATE);
-    //        ObjectOutputStream od = new ObjectOutputStream(fos);
-    //        od.writeObject(Flux);
-    //    } catch (FileNotFoundException e) {
-    //        e.printStackTrace();
-    //    } catch (IOException e) {
-    //        e.printStackTrace();
-    //    }
-    //}
+    public void Save(ArrayList<FluxRssData> Flux){
+        lf.Save(Flux);
+    }
     //public void Load(){
     //    try{
     //        FileInputStream fis = getApplicationContext().openFileInput("FluxRssData");

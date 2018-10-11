@@ -50,7 +50,7 @@ public class FluxRssAdapter extends ArrayAdapter<FluxRssData> {
                 MesFlux.remove(MesFlux.get(position));
                 ArrayList<FluxRssData> nouveauFlux = new ArrayList<FluxRssData>();
                 nouveauFlux.addAll(MesFlux);
-                //refreshObjects(nouveauFlux);
+                refreshObjects(nouveauFlux);
             }
         });
         imgView.setOnClickListener(new View.OnClickListener() {
@@ -73,12 +73,12 @@ public class FluxRssAdapter extends ArrayAdapter<FluxRssData> {
 
         return convertView;
     }
-    //public void refreshObjects(List<FluxRssData> objects) {
-    //    this.MesFlux.clear();
-    //    this.MesFlux.addAll(objects);
-    //    ((MainActivity)mContext).Save(MesFlux);
-    //    ((MainActivity)mContext).UpdateAdapter(MesFlux);
-    //}
+    public void refreshObjects(List<FluxRssData> objects) {
+        this.MesFlux.clear();
+        this.MesFlux.addAll(objects);
+        ((MainActivity)mContext).Save(MesFlux);
+        ((MainActivity)mContext).UpdateAdapter(MesFlux);
+    }
 
 }
 
