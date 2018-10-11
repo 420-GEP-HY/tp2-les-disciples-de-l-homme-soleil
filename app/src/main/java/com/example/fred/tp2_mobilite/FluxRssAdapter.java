@@ -70,7 +70,6 @@ public class FluxRssAdapter extends ArrayAdapter<FluxRssData> {
         imgView.setImageBitmap(MesFlux.get(position).image.getBitmap());
         Titre.setText(MesFlux.get(position).titre);
         articleNonLus.setText(String.valueOf(MesFlux.get(position).articleNonLus));
-
         return convertView;
     }
     public void refreshObjects(List<FluxRssData> objects) {

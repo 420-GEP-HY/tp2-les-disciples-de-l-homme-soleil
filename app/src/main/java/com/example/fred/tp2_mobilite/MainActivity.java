@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     static  ArrayList<FluxRssData> MesFlux;
     static ListView listView;
     LectureFlux lf;
+    FluxRssData nouveauFlux;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,20 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 else{
-                    FluxRssData nouveauFlux = new FluxRssData(libelle.getText().toString(), "test", BitmapFactory.decodeResource(getResources(), R.drawable.x), 0);
+                    Thread t = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            synchronized (this) {
+                                nouveauFlux = lf.LireFlux(libelle.getText().toString());
+                            }
+                        }
+                    });
+                    t.start();
+                    try {
+                        t.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     MesFlux.add(nouveauFlux);
                     lf.Save(MesFlux);
                     //Save(MesFlux);
@@ -66,19 +80,4 @@ public class MainActivity extends AppCompatActivity {
     public void Save(ArrayList<FluxRssData> Flux){
         lf.Save(Flux);
     }
-    //public void Load(){
-    //    try{
-    //        FileInputStream fis = getApplicationContext().openFileInput("FluxRssData");
-    //        ObjectInputStream is = new ObjectInputStream(fis);
-    //        MesFlux = (ArrayList<FluxRssData>) is.readObject();
-    //    }
-    //    catch (FileNotFoundException e) {
-    //        e.printStackTrace();
-    //    } catch (IOException e) {
-    //        e.printStackTrace();
-    //    } catch (ClassNotFoundException e) {
-    //        e.printStackTrace();
-    //    }
-    //    UpdateAdapter(MesFlux);
-    //}
 }
