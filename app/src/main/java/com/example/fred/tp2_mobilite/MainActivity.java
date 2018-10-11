@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setTitle("TP2");
         MesFlux = new ArrayList<FluxRssData>();
         MesFlux = lf.Load();
+        UpdateAdapter(MesFlux);
         //Load();
         ImageView ajouter = findViewById(R.id.ajouter);
         final EditText libelle = findViewById(R.id.libelle);
