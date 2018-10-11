@@ -8,12 +8,12 @@ public class FluxRssData implements Serializable
 {
     String titre;
     String uRL;
-    Bitmap image;
+    ProxyBitmap image;
     int articleNonLus;
     public FluxRssData(String titre, String URL, Bitmap image, int articleNonLus){
         this.titre = titre;
         this.uRL = URL;
-        this.image = image;
+        this.image = new ProxyBitmap(image);
         this.articleNonLus = articleNonLus;
     }
 }

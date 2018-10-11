@@ -65,7 +65,7 @@ public class FluxRssAdapter extends ArrayAdapter<FluxRssData> {
                 ma.startActivity(Lecture);
             }
         });
-        imgView.setImageBitmap(MesFlux.get(position).image);
+        imgView.setImageBitmap(MesFlux.get(position).image.getBitmap());
         Titre.setText(MesFlux.get(position).titre);
         articleNonLus.setText(String.valueOf(MesFlux.get(position).articleNonLus));
 

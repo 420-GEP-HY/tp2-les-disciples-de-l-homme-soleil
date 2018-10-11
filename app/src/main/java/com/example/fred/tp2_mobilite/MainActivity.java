@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 else{
-                    FluxRssData nouveauFlux = new FluxRssData(libelle.getText().toString(), "test", BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_background), 0);
+                    FluxRssData nouveauFlux = new FluxRssData(libelle.getText().toString(), "test", BitmapFactory.decodeResource(getResources(), R.drawable.x), 0);
                     MesFlux.add(nouveauFlux);
                     Save(MesFlux);
                     UpdateAdapter(MesFlux);
