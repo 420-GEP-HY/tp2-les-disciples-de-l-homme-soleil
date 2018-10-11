@@ -1,4 +1,4 @@
-package com.example.fred.tp2_mobilite;
+package com.example.fluxrss;
 
 import android.graphics.Bitmap;
 
@@ -6,10 +6,10 @@ import java.io.Serializable;
 
 public class FluxRssData implements Serializable
 {
-    String titre;
+    public String titre;
     String uRL;
-    ProxyBitmap image;
-    int articleNonLus;
+    public ProxyBitmap image;
+    public int articleNonLus;
     public FluxRssData(String titre, String URL, Bitmap image, int articleNonLus){
         this.titre = titre;
         this.uRL = URL;

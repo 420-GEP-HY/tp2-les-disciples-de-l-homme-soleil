@@ -1,4 +1,4 @@
-package com.example.fred.tp2_mobilite;
+package com.example.fluxrss;
 
 import android.graphics.Bitmap;
 
