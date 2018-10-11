@@ -74,6 +74,7 @@ public class FluxRssAdapter extends ArrayAdapter<FluxRssData> {
     public void refreshObjects(List<FluxRssData> objects) {
         this.MesFlux.clear();
         this.MesFlux.addAll(objects);
+        ((MainActivity)mContext).Save(MesFlux);
         ((MainActivity)mContext).UpdateAdapter(MesFlux);
     }
 
