@@ -1,6 +1,7 @@
 package com.example.fluxrss;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import java.io.Serializable;
 
@@ -10,10 +11,9 @@ public class FluxRssData implements Serializable
     String uRL;
     public ProxyBitmap image;
     public int articleNonLus;
-    public FluxRssData(String titre, String URL, Bitmap image, int articleNonLus){
+    public FluxRssData(String titre, String URL, int articleNonLus){
         this.titre = titre;
         this.uRL = URL;
-        this.image = new ProxyBitmap(image);
         this.articleNonLus = articleNonLus;
     }
 }

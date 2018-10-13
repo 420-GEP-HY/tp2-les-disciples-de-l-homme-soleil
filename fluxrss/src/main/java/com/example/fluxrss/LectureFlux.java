@@ -34,26 +34,29 @@ public class LectureFlux {
     {
         appContexte = context;
     }
+    public LectureFlux(){}
     public FluxRssData LireFlux(String rssUrlStr)
     {
-        FluxRssData flux =  new FluxRssData("test", rssUrlStr, BitmapFactory.decodeResource(appContexte.getResources(), R.drawable.noimage), 0);
+        FluxRssData flux =  new FluxRssData("test", rssUrlStr, 0);
         DocumentBuilder builder;
         Document dom;
         try {
             builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             dom = builder.parse(rssUrlStr);
-            NodeList nodes = dom.getDocumentElement().getElementsByTagName("image");
-            Element elm = (Element) nodes.item(0);
-            Node s = elm.getElementsByTagName("url").item(0);
-            Node url = s.getFirstChild();
-            String strtr = url.getNodeValue();
-            Bitmap b = getBitmapFromUrl(new URL(strtr));
-            ProxyBitmap pb = new ProxyBitmap(b);
             NodeList items = dom.getDocumentElement().getElementsByTagName("item");
             flux.articleNonLus = items.getLength();
-            flux.image = pb;
             flux.titre = dom.getElementsByTagName("title").item(0).getTextContent();
             flux.uRL = rssUrlStr;
+            if(appContexte != null) {
+                NodeList nodes = dom.getDocumentElement().getElementsByTagName("image");
+                Element elm = (Element) nodes.item(0);
+                Node s = elm.getElementsByTagName("url").item(0);
+                Node url = s.getFirstChild();
+                String strtr = url.getNodeValue();
+                Bitmap b = getBitmapFromUrl(new URL(strtr));
+                ProxyBitmap pb = new ProxyBitmap(b);
+                flux.image = pb;
+            }
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (SAXException e) {
