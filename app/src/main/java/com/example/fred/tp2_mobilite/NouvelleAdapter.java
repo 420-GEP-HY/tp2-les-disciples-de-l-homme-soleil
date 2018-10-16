@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -42,6 +43,7 @@ public class NouvelleAdapter extends ArrayAdapter<NouvellesData> {
         }
         ImageView imgView = convertView.findViewById(R.id.imgNouvelle);
         TextView titre = convertView.findViewById(R.id.TitreNouvelle);
+        CheckBox chkVu = convertView.findViewById(R.id.EstVu);
 
         imgView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +75,7 @@ public class NouvelleAdapter extends ArrayAdapter<NouvellesData> {
         if (mesNouvelles.get(position).imageNouvelle != null){
             imgView.setImageBitmap(mesNouvelles.get(position).imageNouvelle.getBitmap());
         }
+        chkVu.setChecked(mesNouvelles.get(position).seen);
         titre.setText(mesNouvelles.get(position).titre);
         return convertView;
     }
