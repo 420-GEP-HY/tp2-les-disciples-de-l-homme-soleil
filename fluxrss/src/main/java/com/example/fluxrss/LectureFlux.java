@@ -47,6 +47,8 @@ public class LectureFlux {
         try {
             builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             dom = builder.parse(rssUrlStr);
+
+            /// Toutes les nouvelles
             NodeList items = dom.getDocumentElement().getElementsByTagName("item");
             for (int i = 0; i < items.getLength(); i++){
                 Element element = (Element) items.item(i);
@@ -58,13 +60,12 @@ public class LectureFlux {
                 String urlLink = link.getFirstChild().getNodeValue();
                 String urlimage = "";
                 if (image != null){
-                     urlimage = image.getAttributes().item(2).getNodeValue();
+                    String s = image.getAttributes().getNamedItem("type").getNodeValue();
+                    if(s.contains("image"))
+                        urlimage = image.getAttributes().item(2).getNodeValue();
 
                 }
-
                 String titre = title.getFirstChild().getNodeValue();
-
-
                 NouvellesData nd = new NouvellesData(titre, description);
                 if (urlimage != ""){
                     ProxyBitmap pb = new ProxyBitmap(getBitmapFromUrl(new URL(urlimage)));
@@ -72,6 +73,13 @@ public class LectureFlux {
                 nd.urlPage = urlLink;
 
                 }
+                Node video = element.getElementsByTagName("media:content").item(0);
+                if(video != null) {
+                    String videoURL = video.getAttributes().item(0).getNodeValue();
+                    nd.VideoUrl = videoURL;
+                }
+                nd.lien = link.getTextContent();
+                nd.Description = descriptionNode.getTextContent();
                 flux.nouvelles.add(nd);
             }
             flux.articleNonLus = items.getLength();
