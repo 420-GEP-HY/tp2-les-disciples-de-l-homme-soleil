@@ -49,7 +49,8 @@ public class NouvelleAdapter extends ArrayAdapter<NouvellesData> {
                 nouveauFlux.addAll(mesNouvelles);
 
                 Intent Detail = new Intent(getContext(), DetailActivity.class);
-                Detail.putExtra("nouvelle", mesNouvelles.get(position));
+                Detail.putExtra("positionnouvelle", positionRSS);
+                Detail.putExtra("positionrss", position);
                 ma.startActivity(Detail);
             }
         });
@@ -61,7 +62,8 @@ public class NouvelleAdapter extends ArrayAdapter<NouvellesData> {
                 mesNouvelles.get(position).seen = true;
 
                 Intent Detail = new Intent(getContext(), DetailActivity.class);
-                Detail.putExtra("nouvelle", mesNouvelles.get(position));
+                Detail.putExtra("positionnouvelle", positionRSS);
+                Detail.putExtra("positionrss", position);
                 ma.startActivity(Detail);
             }
         });
