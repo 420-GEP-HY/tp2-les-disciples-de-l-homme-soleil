@@ -81,6 +81,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        int potato = 2;
+        MesFlux = lf.Load();
+        UpdateAdapter(MesFlux);
+    }
     public void UpdateAdapter(ArrayList<FluxRssData> NouveauFlux){
         MesFlux = NouveauFlux;
         ArrayAdapter<FluxRssData> aa = new FluxRssAdapter(this, 0, MesFlux, this);
