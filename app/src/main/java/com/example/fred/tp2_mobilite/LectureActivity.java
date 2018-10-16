@@ -32,9 +32,19 @@ public class LectureActivity extends AppCompatActivity {
         mesNouvelles = mesflux.get(position).nouvelles;
         ArrayAdapter<NouvellesData> aa = new NouvelleAdapter(getApplicationContext(), 0, mesNouvelles, this, position);
         listView = this.findViewById(R.id.ListeDeNouvelles);
-
         listView.setAdapter(aa);
     }
-
+    @Override
+    public void onResume(){
+        super.onResume();
+        mesflux = lf.Load();
+        UpdateAdapter(mesflux);
+    }
+    public void UpdateAdapter(ArrayList<FluxRssData> NouveauFlux){
+        mesflux = NouveauFlux;
+        ArrayAdapter<NouvellesData> aa = new NouvelleAdapter(getApplicationContext(), 0, mesNouvelles, this, position);
+        listView = this.findViewById(R.id.ListeDeNouvelles);
+        listView.setAdapter(aa);
+    }
 
 }

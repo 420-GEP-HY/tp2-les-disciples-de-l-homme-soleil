@@ -48,45 +48,40 @@ public class MainActivity extends AppCompatActivity {
         ajouter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(lf.isValid(libelle.getText().toString()) == true) {
                     if (libelle.getText().toString() == "") {
                         return;
                     } else {
-                        Thread t = new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                synchronized (this) {
-                                    nouveauFlux = lf.LireFlux(libelle.getText().toString());
-                                }
+                    Thread t = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            synchronized (this) {
+                                nouveauFlux = lf.LireFlux(libelle.getText().toString());
                             }
-                        });
-                        t.start();
-                        try {
-                            t.join();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
                         }
+                    });
+                    t.start();
+                    try {
+                        t.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (nouveauFlux.titre != "vide") {
                         MesFlux.add(nouveauFlux);
                         lf.Save(MesFlux);
                         //Save(MesFlux);
                         UpdateAdapter(MesFlux);
+                    } else {
+                        Toast toast = Toast.makeText(getApplicationContext(), "Lien URL invalide", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                        toast.show();
                     }
-                }
-                else
-                {
-                    Toast toast= Toast.makeText(getApplicationContext(), "Lien URL invalide", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
-                    toast.show();
                 }
             }
         });
     }
-
-
     @Override
     public void onResume(){
         super.onResume();
-        int potato = 2;
         MesFlux = lf.Load();
         UpdateAdapter(MesFlux);
     }

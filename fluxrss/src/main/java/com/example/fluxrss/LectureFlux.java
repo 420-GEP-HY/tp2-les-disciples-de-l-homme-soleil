@@ -37,64 +37,63 @@ public class LectureFlux {
     public LectureFlux(){}
     public FluxRssData LireFlux(String rssUrlStr)
     {
-        FluxRssData flux =  new FluxRssData("test", rssUrlStr, 0);
-        if (flux.nouvelles == null){
-            flux.nouvelles = new ArrayList<NouvellesData>();
-
-        }
+        FluxRssData flux = new FluxRssData("vide",rssUrlStr,0);
         DocumentBuilder builder;
         Document dom;
         try {
             builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             dom = builder.parse(rssUrlStr);
-
-            /// Toutes les nouvelles
-            NodeList items = dom.getDocumentElement().getElementsByTagName("item");
-            for (int i = 0; i < items.getLength(); i++){
-                Element element = (Element) items.item(i);
-                Node title = element.getElementsByTagName("title").item(0);
-                Node image = element.getElementsByTagName("enclosure").item(0);
-                Node link = element.getElementsByTagName("link").item(0);
-                Node descriptionNode = element.getElementsByTagName("description").item(0);
-                String description = descriptionNode.getFirstChild().getNodeValue();
-                String urlLink = link.getFirstChild().getNodeValue();
-                String urlimage = "";
-                if (image != null){
-                    String s = image.getAttributes().getNamedItem("type").getNodeValue();
-                    if(s.contains("image"))
-                        urlimage = image.getAttributes().item(2).getNodeValue();
+                if (flux.nouvelles == null){
+                    flux.nouvelles = new ArrayList<NouvellesData>();
 
                 }
-                String titre = title.getFirstChild().getNodeValue();
-                NouvellesData nd = new NouvellesData(titre, description);
-                if (urlimage != ""){
-                    ProxyBitmap pb = new ProxyBitmap(getBitmapFromUrl(new URL(urlimage)));
-                nd.imageNouvelle = pb;
-                nd.urlPage = urlLink;
+                /// Toutes les nouvelles
+                NodeList items = dom.getDocumentElement().getElementsByTagName("item");
+                for (int i = 0; i < items.getLength(); i++) {
+                    Element element = (Element) items.item(i);
+                    Node title = element.getElementsByTagName("title").item(0);
+                    Node image = element.getElementsByTagName("enclosure").item(0);
+                    Node link = element.getElementsByTagName("link").item(0);
+                    Node descriptionNode = element.getElementsByTagName("description").item(0);
+                    String description = descriptionNode.getFirstChild().getNodeValue();
+                    String urlLink = link.getFirstChild().getNodeValue();
+                    String urlimage = "";
+                    if (image != null) {
+                        String s = image.getAttributes().getNamedItem("type").getNodeValue();
+                        if (s.contains("image"))
+                            urlimage = image.getAttributes().item(2).getNodeValue();
 
+                    }
+                    String titre = title.getFirstChild().getNodeValue();
+                    NouvellesData nd = new NouvellesData(titre, description);
+                    if (urlimage != "") {
+                        ProxyBitmap pb = new ProxyBitmap(getBitmapFromUrl(new URL(urlimage)));
+                        nd.imageNouvelle = pb;
+                        nd.urlPage = urlLink;
+
+                    }
+                    Node video = element.getElementsByTagName("media:content").item(0);
+                    if (video != null) {
+                        String videoURL = video.getAttributes().item(0).getNodeValue();
+                        nd.VideoUrl = videoURL;
+                    }
+                    nd.lien = link.getTextContent();
+                    nd.Description = descriptionNode.getTextContent();
+                    flux.nouvelles.add(nd);
                 }
-                Node video = element.getElementsByTagName("media:content").item(0);
-                if(video != null) {
-                    String videoURL = video.getAttributes().item(0).getNodeValue();
-                    nd.VideoUrl = videoURL;
+                flux.articleNonLus = items.getLength();
+                flux.titre = dom.getElementsByTagName("title").item(0).getTextContent();
+                flux.uRL = rssUrlStr;
+                if (appContexte != null) {
+                    NodeList nodes = dom.getDocumentElement().getElementsByTagName("image");
+                    Element elm = (Element) nodes.item(0);
+                    Node s = elm.getElementsByTagName("url").item(0);
+                    Node url = s.getFirstChild();
+                    String strtr = url.getNodeValue();
+                    Bitmap b = getBitmapFromUrl(new URL(strtr));
+                    ProxyBitmap pb = new ProxyBitmap(b);
+                    flux.image = pb;
                 }
-                nd.lien = link.getTextContent();
-                nd.Description = descriptionNode.getTextContent();
-                flux.nouvelles.add(nd);
-            }
-            flux.articleNonLus = items.getLength();
-            flux.titre = dom.getElementsByTagName("title").item(0).getTextContent();
-            flux.uRL = rssUrlStr;
-            if(appContexte != null) {
-                NodeList nodes = dom.getDocumentElement().getElementsByTagName("image");
-                Element elm = (Element) nodes.item(0);
-                Node s = elm.getElementsByTagName("url").item(0);
-                Node url = s.getFirstChild();
-                String strtr = url.getNodeValue();
-                Bitmap b = getBitmapFromUrl(new URL(strtr));
-                ProxyBitmap pb = new ProxyBitmap(b);
-                flux.image = pb;
-            }
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (SAXException e) {
@@ -145,16 +144,5 @@ public class LectureFlux {
         InputStream input = connection.getInputStream();
 
         return BitmapFactory.decodeStream(input);
-    }
-
-    public boolean isValid(String url)
-    {
-        try {
-            new URL(url).toURI();
-            return true;
-        }
-        catch (Exception e) {
-            return false;
-        }
     }
 }
