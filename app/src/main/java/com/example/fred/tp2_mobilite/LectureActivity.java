@@ -30,7 +30,7 @@ public class LectureActivity extends AppCompatActivity {
         lf = new LectureFlux(this);
         mesflux = lf.Load();
         mesNouvelles = mesflux.get(0).nouvelles;
-        ArrayAdapter<NouvellesData> aa = new NouvelleAdapter(getApplicationContext(), 0, mesNouvelles, this);
+        ArrayAdapter<NouvellesData> aa = new NouvelleAdapter(getApplicationContext(), 0, mesNouvelles, this, position);
         listView = this.findViewById(R.id.ListeDeNouvelles);
 
         listView.setAdapter(aa);

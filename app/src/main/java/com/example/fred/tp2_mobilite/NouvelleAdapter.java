@@ -2,6 +2,7 @@ package com.example.fred.tp2_mobilite;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -18,13 +19,15 @@ import java.util.List;
 
 public class NouvelleAdapter extends ArrayAdapter<NouvellesData> {
     static ArrayList<NouvellesData> mesNouvelles;
+    private int positionRSS;
     Activity ma;
     private Context mContext;
-    public NouvelleAdapter(Context context, int resource, ArrayList<NouvellesData> objects, Activity ma){
+    public NouvelleAdapter(Context context, int resource, ArrayList<NouvellesData> objects, Activity ma, int position){
         super(context, resource, objects);
         this.mesNouvelles = objects;
         this.ma = ma;
         this.mContext = context;
+        this.positionRSS = position;
     }
 
 
@@ -44,6 +47,10 @@ public class NouvelleAdapter extends ArrayAdapter<NouvellesData> {
                 mesNouvelles.get(position).seen =true;
                 ArrayList<NouvellesData> nouveauFlux = new ArrayList<>();
                 nouveauFlux.addAll(mesNouvelles);
+
+                Intent Detail = new Intent(getContext(), DetailActivity.class);
+                Detail.putExtra("nouvelle", mesNouvelles.get(position));
+                ma.startActivity(Detail);
             }
         });
 
@@ -52,6 +59,10 @@ public class NouvelleAdapter extends ArrayAdapter<NouvellesData> {
             public void onClick(View view) {
 
                 mesNouvelles.get(position).seen = true;
+
+                Intent Detail = new Intent(getContext(), DetailActivity.class);
+                Detail.putExtra("nouvelle", mesNouvelles.get(position));
+                ma.startActivity(Detail);
             }
         });
 
