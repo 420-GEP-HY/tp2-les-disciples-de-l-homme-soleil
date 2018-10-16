@@ -8,7 +8,8 @@ public class NouvellesData implements Serializable {
     public boolean seen;
     public ProxyBitmap imageNouvelle;
     public String urlPage;
-
+    public String lien;
+    public String VideoUrl;
     public NouvellesData(String titre, String Description){
         this.titre = titre;
         this.Description = Description;

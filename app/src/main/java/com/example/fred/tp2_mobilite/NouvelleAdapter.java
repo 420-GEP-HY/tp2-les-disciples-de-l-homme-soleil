@@ -11,6 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.fluxrss.FluxRssData;
+import com.example.fluxrss.LectureFlux;
 import com.example.fluxrss.NouvellesData;
 
 import java.util.ArrayList;
@@ -45,12 +48,11 @@ public class NouvelleAdapter extends ArrayAdapter<NouvellesData> {
             public void onClick(View view) {
 
                 mesNouvelles.get(position).seen =true;
-                ArrayList<NouvellesData> nouveauFlux = new ArrayList<>();
-                nouveauFlux.addAll(mesNouvelles);
 
+                refreshObjects();
                 Intent Detail = new Intent(getContext(), DetailActivity.class);
-                Detail.putExtra("positionnouvelle", positionRSS);
-                Detail.putExtra("positionrss", position);
+                Detail.putExtra("positionnouvelle", position);
+                Detail.putExtra("positionrss", positionRSS);
                 ma.startActivity(Detail);
             }
         });
@@ -60,10 +62,10 @@ public class NouvelleAdapter extends ArrayAdapter<NouvellesData> {
             public void onClick(View view) {
 
                 mesNouvelles.get(position).seen = true;
-
+                refreshObjects();
                 Intent Detail = new Intent(getContext(), DetailActivity.class);
-                Detail.putExtra("positionnouvelle", positionRSS);
-                Detail.putExtra("positionrss", position);
+                Detail.putExtra("positionnouvelle", position);
+                Detail.putExtra("positionrss", positionRSS);
                 ma.startActivity(Detail);
             }
         });
@@ -75,9 +77,21 @@ public class NouvelleAdapter extends ArrayAdapter<NouvellesData> {
         return convertView;
     }
 
-    public void refreshObjects(List<NouvellesData> object){
-        this.mesNouvelles.clear();
-        this.mesNouvelles.addAll(object);
+    public void refreshObjects(){
+        LectureFlux lf = new LectureFlux(mContext);
+        ArrayList<FluxRssData> mesFlux = lf.Load();
+        int nombre = 0;
+        for (int i = 0; i < mesNouvelles.size(); i++)
+        {
+            if (!mesNouvelles.get(i).seen)
+            {
+                nombre++;
+            }
+        }
+        mesFlux.get(positionRSS).articleNonLus = nombre;
+        mesFlux.get(positionRSS).nouvelles.clear();
+        mesFlux.get(positionRSS).nouvelles.addAll(mesNouvelles);
+        lf.Save(mesFlux);
         //((MainActivity)mContext).Save(mesFlux);
     }
 }

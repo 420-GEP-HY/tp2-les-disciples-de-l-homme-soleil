@@ -29,7 +29,7 @@ public class LectureActivity extends AppCompatActivity {
         setTitle("TP2");
         lf = new LectureFlux(this);
         mesflux = lf.Load();
-        mesNouvelles = mesflux.get(0).nouvelles;
+        mesNouvelles = mesflux.get(position).nouvelles;
         ArrayAdapter<NouvellesData> aa = new NouvelleAdapter(getApplicationContext(), 0, mesNouvelles, this, position);
         listView = this.findViewById(R.id.ListeDeNouvelles);
 
