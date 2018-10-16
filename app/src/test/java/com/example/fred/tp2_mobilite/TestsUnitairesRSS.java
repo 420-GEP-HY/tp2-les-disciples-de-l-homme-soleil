@@ -11,6 +11,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,14 +26,10 @@ public class TestsUnitairesRSS {
     @Test
     public void CreerFluxRss()
     {
-        try {
-            //Ajout d'un nouveau flux
-            FluxRssData fluxAjout  = new FluxRssData("testccccdddddaaa", "http::/testaaabbbccc" , 0);
+            FluxRssData fluxAjout = new FluxRssData("test" , "http://www.lapresse.ca/rss.php" , 0);
             MesFlux.add(fluxAjout);
             Assert.assertEquals(MesFlux.get(MesFlux.size() - 1) , fluxAjout);
-        }catch (Exception ex){
-            Assert.fail("Impossible d'ajouter un nouveau flux");
-        }
+
     }
 
     @Test
@@ -40,10 +37,14 @@ public class TestsUnitairesRSS {
     {
         try {
             //Ajout d'un nouveau flux
-            MesFlux.add(new FluxRssData("testccccdddddaaa", "http::/testaaabbbccc", 0));
-            MesFlux.add(new FluxRssData("testccccdddd", "http::/testaaabb", 0));
-            MesFlux.add(new FluxRssData("testccccdddddaaahfhgf", "http::/testaaabbbcccgfhf", 0));
-            MesFlux.add(new FluxRssData("testccccdddddaaafhgfg", "http::/testaaabbbcccfhgrth", 0));
+            FluxRssData fluxAjout1 = new FluxRssData("test" , "http://www.lapresse.ca/rss.php" , 0);
+            MesFlux.add(fluxAjout1);
+            FluxRssData fluxAjout2 = new FluxRssData("test" , "http://rss.slashdot.org/Slashdot/slashdotMain" , 0);
+            MesFlux.add(fluxAjout2);
+            FluxRssData fluxAjout3 = new FluxRssData("test" , "https://www.commentcamarche.net/rss/ " , 0);
+            MesFlux.add(fluxAjout3);
+            FluxRssData fluxAjout4 = new FluxRssData("test" , "http://www.developpez.com/index/rss " , 0);
+            MesFlux.add(fluxAjout4);
 
             Assert.assertEquals( 4 , MesFlux.size());
         }catch (Exception ex){
@@ -55,8 +56,11 @@ public class TestsUnitairesRSS {
     public void removeFlux()
     {
         try{
-            MesFlux.add(new FluxRssData("testccccdddddaaa", "http::/testaaabbbccc", 0));
-            MesFlux.add(new FluxRssData("testccccdddd", "http::/testaaabb", 0));
+
+            FluxRssData fluxAjout1 = new FluxRssData("test" , "http://www.lapresse.ca/rss.php" , 0);
+            MesFlux.add(fluxAjout1);
+            FluxRssData fluxAjout2 = new FluxRssData("test" , "http://rss.slashdot.org/Slashdot/slashdotMain" , 0);
+            MesFlux.add(fluxAjout2);
             MesFlux.remove(0);
             Assert.assertEquals(1 , MesFlux.size());
 
@@ -76,6 +80,17 @@ public class TestsUnitairesRSS {
 
         }catch(Exception ex){
             Assert.fail("Impossible de sauvegarder");
+        }
+    }
+
+    @Test
+    public void testerURL()
+    {
+        try{
+            FluxRssData fluxAjout = lf.LireFlux( "http://www.lapresse.ca/rss.php");
+            Assert.assertEquals(true , lf.isValid(fluxAjout.uRL));
+        }catch (Exception ex){
+            Assert.fail("Une exception est levée");
         }
     }
 
