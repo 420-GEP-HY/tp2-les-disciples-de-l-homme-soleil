@@ -138,4 +138,15 @@ public class LectureFlux {
 
         return BitmapFactory.decodeStream(input);
     }
+
+    public boolean isValid(String url)
+    {
+        try {
+            new URL(url).toURI();
+            return true;
+        }
+        catch (Exception e) {
+            return false;
+        }
+    }
 }
