@@ -16,6 +16,8 @@ public class LectureActivity extends AppCompatActivity {
 
     private int position;
     static ArrayList<FluxRssData> mesflux;
+    static ArrayList<NouvellesData> mesNouvelles;
+
     static ListView listView;
     LectureFlux lf;
     @Override
@@ -27,7 +29,8 @@ public class LectureActivity extends AppCompatActivity {
         setTitle("TP2");
         lf = new LectureFlux(this);
         mesflux = lf.Load();
-        ArrayAdapter<NouvellesData> aa = new NouvelleAdapter(getApplicationContext(), 0, mesflux, this, position);
+        mesNouvelles = mesflux.get(0).nouvelles;
+        ArrayAdapter<NouvellesData> aa = new NouvelleAdapter(getApplicationContext(), 0, mesNouvelles, this);
         listView = this.findViewById(R.id.ListeDeNouvelles);
 
         listView.setAdapter(aa);
