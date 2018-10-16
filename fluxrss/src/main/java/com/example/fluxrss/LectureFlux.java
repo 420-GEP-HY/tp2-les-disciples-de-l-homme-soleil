@@ -38,12 +38,42 @@ public class LectureFlux {
     public FluxRssData LireFlux(String rssUrlStr)
     {
         FluxRssData flux =  new FluxRssData("test", rssUrlStr, 0);
+        if (flux.nouvelles == null){
+            flux.nouvelles = new ArrayList<NouvellesData>();
+
+        }
         DocumentBuilder builder;
         Document dom;
         try {
             builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             dom = builder.parse(rssUrlStr);
             NodeList items = dom.getDocumentElement().getElementsByTagName("item");
+            for (int i = 0; i < items.getLength(); i++){
+                Element element = (Element) items.item(i);
+                Node title = element.getElementsByTagName("title").item(0);
+                Node image = element.getElementsByTagName("enclosure").item(0);
+                Node link = element.getElementsByTagName("link").item(0);
+                Node descriptionNode = element.getElementsByTagName("description").item(0);
+                String description = descriptionNode.getFirstChild().getNodeValue();
+                String urlLink = link.getFirstChild().getNodeValue();
+                String urlimage = "";
+                if (image != null){
+                     urlimage = image.getAttributes().item(2).getNodeValue();
+
+                }
+
+                String titre = title.getFirstChild().getNodeValue();
+
+
+                NouvellesData nd = new NouvellesData(titre, description);
+                if (urlimage != ""){
+                    ProxyBitmap pb = new ProxyBitmap(getBitmapFromUrl(new URL(urlimage)));
+                nd.imageNouvelle = pb;
+                nd.urlPage = urlLink;
+
+                }
+                flux.nouvelles.add(nd);
+            }
             flux.articleNonLus = items.getLength();
             flux.titre = dom.getElementsByTagName("title").item(0).getTextContent();
             flux.uRL = rssUrlStr;

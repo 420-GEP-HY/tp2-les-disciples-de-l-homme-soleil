@@ -3,6 +3,7 @@ package com.example.fred.tp2_mobilite;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -57,6 +58,7 @@ public class FluxRssAdapter extends ArrayAdapter<FluxRssData> {
             @Override
             public void onClick(View v) {
                 Intent Lecture = new Intent(ma, LectureActivity.class);
+                Lecture.putExtra("position", position);
                 ma.startActivity(Lecture);
             }
         });
@@ -64,10 +66,17 @@ public class FluxRssAdapter extends ArrayAdapter<FluxRssData> {
             @Override
             public void onClick(View v) {
                 Intent Lecture = new Intent(ma, LectureActivity.class);
+                Lecture.putExtra("position", position);
                 ma.startActivity(Lecture);
             }
         });
-        imgView.setImageBitmap(MesFlux.get(position).image.getBitmap());
+        if(MesFlux.get(position).image != null){
+            imgView.setImageBitmap(MesFlux.get(position).image.getBitmap());
+
+        }
+        else{
+            imgView.setImageBitmap(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.noimage));
+        }
         Titre.setText(MesFlux.get(position).titre);
         articleNonLus.setText(String.valueOf(MesFlux.get(position).articleNonLus));
         return convertView;
